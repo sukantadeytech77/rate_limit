@@ -37,7 +37,7 @@ rate_limit_store = {}
 @app.middleware("http")
 async def rate_limit_middleware(request: Request, call_next):
     client_ip = request.client.host
-    now = datetime
+    now = datetime.now()  # FIX: get the current time
 
     # Initialize or clean up old entries
     if client_ip not in rate_limit_store:
@@ -63,6 +63,7 @@ async def rate_limit_middleware(request: Request, call_next):
 @app.get("/documents", response_model=List[dict])
 async def get_documents():
     return documents
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
